@@ -310,163 +310,174 @@ while find_serial() == {}:
         print ArduinoSerial
     except:
         print("Failed to connect CLI")
-    time.sleep (1)
-    if find_serial() != {}:
-        devices = find_serial()
-        devices_len = len(devices.items())
-        devices = devices.items()
-        ArduinoSerial = serial.Serial(devices[0][0],9600)
-        print 'After if '
-    
-        login_flag_t = 0
-        register_flag_x = 0
-        delete_flag_y = 0
-        reset_flag_s = 0
-        super_user_prevelige_flag = False
-      
-        with open('cp.txt','a+') as f:
-        #with open('dp.txt','a+') as f:
-            first = f.read(1)
-            if not first:
-                ArduinoSerial.write('IG100> register a super user account first. \r\n')
-                username_su, password_su, password_hint_su = get_username_passsword_hint() ###
-                #super_user(True)
-                super_user(username_su, password_su, password_hint_su, True)
-                #first_user = True
-        #with open('cp.txt','a+') as file_json:
-            #d = json.load(file_json)
-        
-        #ArduinoSerial.write('IG100> please type to proceed \r\n\t login\r\n\t register\r\n\t delete\r\n\t exit \0')
-        ArduinoSerial.write('IG100> please type "login" or "register" ')    
-        choice = ArduinoSerial.readline().strip()
-        while choice not in ['login','register']: 
-            ArduinoSerial.write('IG100> please type between "login" or "register" ')
-            choice = ArduinoSerial.readline().strip()
+    time.sleep (.500)
+    #if find_serial() != {}:
+    print 'before if '
+    if devices != {}:
+        while True:
+            try:
+                devices = find_serial()
+                devices_len = len(devices.items())
+                devices = devices.items()
+                ArduinoSerial = serial.Serial(devices[0][0],9600)
+                print 'After if : first try block for login and register '
             
-        if choice == 'login': ################################LOGIN#################
-            #username_password()
-            ArduinoSerial.write('IG100> enter username: ')
-            username = ArduinoSerial.readline().strip()
-            ArduinoSerial.write('IG100> enter password: ')
-            password = ArduinoSerial.readline().strip()
-            status = login(username, password)
-            print status
-            if status == True:
-                login_flag_t = 1
-            else:
                 login_flag_t = 0
-           
-            while status != True: 
-                ArduinoSerial.write('IG100> please enter valid username and password \r\n')
-                ArduinoSerial.write('IG100> enter valid username: ')
-                username = ArduinoSerial.readline().strip()
-                ArduinoSerial.write('IG100> enter valid password: ')
-                password = ArduinoSerial.readline().strip()
-                status = login(username, password)
-                login_flag_t = 1
-            
-        elif choice == 'register': ##########################REGISTER####################
-            username_reg, password_reg, password_hint_reg = get_username_passsword_hint() 
-            register_flag_x = register(username_reg, password_reg, password_hint_reg)
-            
-        #elif choice == 'delete': ##########################DELETE####################
-            #ArduinoSerial.write('IG100> username ')
-            #username = ArduinoSerial.readline().strip()
-            #delete_flag_y = delete(username)
-        
-        #elif choice == 'exit':
-            #saveData()
-            #quit()
-            
-        ########################USER_PREVELEGE#############################################   
-        #print current_user + " Current User" 
-        #with open('cp.txt','r') as fpre:
-            #a = json.loads(fpre.read()) 
-            
-        #print super_user_prevelige_flag    
-        #if super_user_prevelige_flag == True:
-            #u_pre = a[current_user]['up']
-            #print a[current_user]['up']
-        #else:
-            #print "please enter valid user name and password"
-            #ArduinoSerial.write('IG100> please type valid username and password \r\n')
-        #if u_pre == 'su':
-            #console_sign = "IG100(config)#"
-        #elif u_pre == 'admin':
-            #console_sign = "IG100#"
-        #else:
-           # console_sign = "IG100>"
-            
-        if (login_flag_t == 1 or register_flag_x == 1):
-            print "Welcome NS-OS"
-            while True:
-            #while ArduinoSerial:
-                ArduinoSerial.write('IG100>')
-                #ArduinoSerial.write(console_sign)
-                #command = ArduinoSerial.readline().strip()
-                command = ArduinoSerial.readline().strip()
-                #while command in ['register','delete','logout']:
-                if command == 'register':
+                register_flag_x = 0
+                delete_flag_y = 0
+                reset_flag_s = 0
+                super_user_prevelige_flag = False
+              
+                with open('cp.txt','a+') as f:
+                #with open('dp.txt','a+') as f:
+                    first = f.read(1)
+                    if not first:
+                        ArduinoSerial.write('IG100> register a super user account first. \r\n')
+                        username_su, password_su, password_hint_su = get_username_passsword_hint() ###
+                        #super_user(True)
+                        super_user(username_su, password_su, password_hint_su, True)
+                        #first_user = True
+                #with open('cp.txt','a+') as file_json:
+                    #d = json.load(file_json)
+                
+                #ArduinoSerial.write('IG100> please type to proceed \r\n\t login\r\n\t register\r\n\t delete\r\n\t exit \0')
+                ArduinoSerial.write('IG100> please type "login" or "register" ')    
+                choice = ArduinoSerial.readline().strip()
+                while choice not in ['login','register']: 
+                    ArduinoSerial.write('IG100> please type between "login" or "register" ')
+                    choice = ArduinoSerial.readline().strip()
+                    
+                if choice == 'login': ################################LOGIN#################
+                    #username_password()
+                    ArduinoSerial.write('IG100> enter username: ')
+                    username = ArduinoSerial.readline().strip()
+                    ArduinoSerial.write('IG100> enter password: ')
+                    password = ArduinoSerial.readline().strip()
+                    status = login(username, password)
+                    print status
+                    if status == True:
+                        login_flag_t = 1
+                    else:
+                        login_flag_t = 0
+                   
+                    while status != True: 
+                        ArduinoSerial.write('IG100> please enter valid username and password \r\n')
+                        ArduinoSerial.write('IG100> enter valid username: ')
+                        username = ArduinoSerial.readline().strip()
+                        ArduinoSerial.write('IG100> enter valid password: ')
+                        password = ArduinoSerial.readline().strip()
+                        status = login(username, password)
+                        login_flag_t = 1
+                    
+                elif choice == 'register': ##########################REGISTER####################
+                    username_reg, password_reg, password_hint_reg = get_username_passsword_hint() 
+                    register_flag_x = register(username_reg, password_reg, password_hint_reg)
+                    
+                #elif choice == 'delete': ##########################DELETE####################
+                    #ArduinoSerial.write('IG100> username ')
+                    #username = ArduinoSerial.readline().strip()
+                    #delete_flag_y = delete(username)
+                
+                #elif choice == 'exit':
+                    #saveData()
+                    #quit()
+                    
+                ########################USER_PREVELEGE#############################################   
+                #print current_user + " Current User" 
+                #with open('cp.txt','r') as fpre:
+                    #a = json.loads(fpre.read()) 
+                    
+                #print super_user_prevelige_flag    
+                #if super_user_prevelige_flag == True:
+                    #u_pre = a[current_user]['up']
+                    #print a[current_user]['up']
+                #else:
+                    #print "please enter valid user name and password"
+                    #ArduinoSerial.write('IG100> please type valid username and password \r\n')
+                #if u_pre == 'su':
+                    #console_sign = "IG100(config)#"
+                #elif u_pre == 'admin':
+                    #console_sign = "IG100#"
+                #else:
+                   # console_sign = "IG100>"
+            except:
+                print 'port is closed : exception from outer'
+                break
+             
+            if (login_flag_t == 1 or register_flag_x == 1):
+                print "Welcome NS-OS"
+                while True:
+                #while ArduinoSerial:
                     try:
-                        username_reg2, password_reg2, password_hint_reg2 = get_username_passsword_hint() ###
-                        register_flag_x = register(username_reg2, password_reg2, password_hint_reg2)
+                        ArduinoSerial.write('IG100>')
+                        #ArduinoSerial.write(console_sign)
+                        #command = ArduinoSerial.readline().strip()
+                        command = ArduinoSerial.readline().strip()
+                        #while command in ['register','delete','logout']:
                     except:
-                        print 'port is closed'
+                        print 'from inner : first line '
                         break
-                elif command == 'delete':
-                    try:
-                        ArduinoSerial.write('IG100> type username to be deleted: ')
-                        username_1 = ArduinoSerial.readline().strip()
-                        ArduinoSerial.write('IG100> enter super user password: ')
-                        super_password = ArduinoSerial.readline().strip() 
-                        delete_flag_y = delete(username_1, super_password)
-                    except:
-                        print 'port is closed : exception from inner delete'
-                        break
-                elif command == 'logout':
-                    try:
-                        #print current_user + " Current User" 
-                        lop = logout()
-                        #a[current_user]['up']
-                        #print a[current_user]['up']
-                        
-                        #if u_pre == 'su':
-                            #console_sign = "IG100(config)#"
-                        #elif u_pre == 'admin':
-                            #console_sign = "IG100#"
-                        #else:
-                            #console_sign = "IG100>" 
-                    except:
-                        print 'port is closed : exception from inner logout'
-                        break
-                elif command == 'reset':
-                    try:
-                        reset_flag_s = reset_super_user_name_password()
-                    except:
-                        print 'port is closed : exception from inner reset'
-                        break
-                elif command == 'help':
-                    try:                   
-                        ArduinoSerial.write('IG100> type "logout", "register", "delete", "reset" or "valid commands" \r\n')
-                    except:
-                        print 'port is closed : exception from inner help'
-                else:
-                    try:
-                        #print command
-                        com_output = commands.getoutput(command) #commands : For linux commands output
-                        #ArduinoSerial.writelines(com_output.strip())
-                        #print com_output
-                        a = []
-                        for i in com_output.split('\n'):
-                            a.append(i)
-                            a.append('\r') #add carriage 
-                            a.append('\n') #add newline
-                        ArduinoSerial.writelines(a)
-                        #print device, '-->', info
-                    except:
-                        print 'port is closed : exception from inner command'
-                        break
-        else:
-            ArduinoSerial.write('IG100> invalid user name or password \r\n')
+                    if command == 'register':
+                        try:
+                            username_reg2, password_reg2, password_hint_reg2 = get_username_passsword_hint() ###
+                            register_flag_x = register(username_reg2, password_reg2, password_hint_reg2)
+                        except:
+                            print 'port is closed'
+                            break
+                    elif command == 'delete':
+                        try:
+                            ArduinoSerial.write('IG100> type username to be deleted: ')
+                            username_1 = ArduinoSerial.readline().strip()
+                            ArduinoSerial.write('IG100> enter super user password: ')
+                            super_password = ArduinoSerial.readline().strip() 
+                            delete_flag_y = delete(username_1, super_password)
+                        except:
+                            print 'port is closed : exception from inner delete'
+                            break
+                    elif command == 'logout':
+                        try:
+                            #print current_user + " Current User" 
+                            lop = logout()
+                            #a[current_user]['up']
+                            #print a[current_user]['up']
+                            
+                            #if u_pre == 'su':
+                                #console_sign = "IG100(config)#"
+                            #elif u_pre == 'admin':
+                                #console_sign = "IG100#"
+                            #else:
+                                #console_sign = "IG100>" 
+                        except:
+                            print 'port is closed : exception from inner logout'
+                            break
+                    elif command == 'reset':
+                        try:
+                            reset_flag_s = reset_super_user_name_password()
+                        except:
+                            print 'port is closed : exception from inner reset'
+                            break
+                    elif command == 'help':
+                        try:                   
+                            ArduinoSerial.write('IG100> type "logout", "register", "delete", "reset" or "valid commands" \r\n')
+                        except:
+                            print 'port is closed : exception from inner help'
+                    else:
+                        try:
+                            #print command
+                            com_output = commands.getoutput(command) #commands : For linux commands output
+                            #ArduinoSerial.writelines(com_output.strip())
+                            #print com_output
+                            a = []
+                            for i in com_output.split('\n'):
+                                a.append(i)
+                                a.append('\r') #add carriage 
+                                a.append('\n') #add newline
+                            ArduinoSerial.writelines(a)
+                            #print device, '-->', info
+                        except:
+                            print 'port is closed : exception from inner command'
+                            break
+            else:
+                ArduinoSerial.write('IG100> invalid user name or password \r\n')
     else: 
         print 'port not found!!!'
